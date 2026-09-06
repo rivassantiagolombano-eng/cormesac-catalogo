@@ -7,6 +7,13 @@
   <meta name="description" content="Conoce el catálogo de Cormesac, importadora de equipos médicos. Consulta productos y disponibilidad por WhatsApp.">
   <meta name="theme-color" content="#007caa">
   <link rel="stylesheet" href="styles.css">
+  <meta property="og:title" content="Cormesac | Catálogo de equipos médicos">
+  <meta property="og:description" content="Explora nuestros productos y consulta directamente por WhatsApp.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://rivassantiagolombano-eng.github.io/cormesac-catalogo/assets/portada.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script src="assets/qrcode.js" defer></script>
+  <script src="mejoras.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -30,14 +37,19 @@
     </section>
     <section id="productos" class="contenedor catalogo" aria-labelledby="titulo-catalogo">
       <p class="etiqueta">NUESTRO CATÁLOGO</p><h2 id="titulo-catalogo">Productos</h2>
+      <div class="acciones"><button id="compartir-catalogo" type="button">Compartir catálogo</button><button id="mostrar-qr" type="button" class="secundario">Ver código QR</button></div>
+      <div id="categorias-visuales" class="categorias-visuales" aria-label="Explorar categorías"></div>
       <!-- Los filtros se habilitan cuando termina la carga. -->
       <div class="filtros">
         <label>Buscar producto<input id="buscar" type="search" placeholder="Escribe el nombre…" disabled></label>
         <label>Categoría<select id="categoria" disabled><option value="">Todas las categorías</option></select></label>
+        <label>Disponibilidad<select id="disponibilidad"><option value="">Todos los estados</option><option>Disponible</option><option>Agotado</option><option>Consultar</option></select></label>
         <button id="actualizar" type="button">Actualizar catálogo</button>
       </div>
       <p id="estado" role="status" aria-live="polite">Cargando catálogo…</p>
+      <section id="destacados" hidden><h3>Productos destacados</h3><div id="lista-destacados" class="grid"></div><h3>Todos los productos</h3></section>
       <div id="lista" class="grid" aria-busy="true"></div>
+      <p class="aviso">Precios y disponibilidad sujetos a confirmación. Coordina las condiciones de entrega o recojo antes de cerrar tu pedido.</p>
       <noscript>Activa JavaScript para ver el catálogo. Puedes consultar en la sección Contacto.</noscript>
     </section>
     <section id="nosotros" class="banda"><div class="contenedor">
@@ -45,10 +57,22 @@
       <p>Somos una empresa dedicada a ofrecer equipos y productos médicos. Escríbenos para conocer nuestros productos y resolver tus consultas.</p>
     </div></section>
     <section id="contacto" class="contenedor contacto">
-      <div><p class="etiqueta">HABLEMOS</p><h2>¿En qué podemos ayudarte?</h2><p>Dirección: Chancay 001</p><p>WhatsApp: <span id="telefono"></span></p></div>
+      <div><p class="etiqueta">HABLEMOS</p><h2>¿En qué podemos ayudarte?</h2><p>Dirección: Chancay 001</p><p>WhatsApp: <span id="telefono"></span></p><p id="horarios" hidden></p><a id="llamar">Llamar a Cormesac</a><div id="redes" class="acciones"></div><a id="mapa" hidden>Ver ubicación en Google Maps</a></div>
       <a class="boton whatsapp" href="#contacto">Consultar por WhatsApp</a>
     </section>
+    <section class="contenedor extra-seccion"><h2>Preguntas frecuentes</h2>
+      <details><summary>¿Cómo hago un pedido?</summary><p>Elige un producto y pulsa Pedir por WhatsApp. Se preparará un mensaje; tú decides cuándo enviarlo.</p></details>
+      <details><summary>¿Puedo pagar en esta página?</summary><p>No. Este es un catálogo de consulta. Coordina el pedido y el pago directamente con Cormesac.</p></details>
+      <details><summary>¿Cómo confirmo entrega y disponibilidad?</summary><p>Consúltanos antes de cerrar el pedido. Te confirmaremos disponibilidad, precio y opciones de entrega o recojo.</p></details>
+    </section>
+    <section id="testimonios" class="contenedor extra-seccion" hidden><h2>Opiniones de nuestros clientes</h2><div id="opiniones" class="grid"></div></section>
+    <section class="contenedor extra-seccion"><h2>Envíanos una consulta</h2>
+      <form id="consulta"><label>Tu nombre (opcional)<input name="nombre" maxlength="80" autocomplete="given-name"></label><label>Tu consulta<textarea name="mensaje" required maxlength="1200" rows="4" placeholder="¿Qué producto necesitas?"></textarea></label><p>No incluyas información médica personal. Este formulario abre WhatsApp; no envía la consulta automáticamente.</p><button type="submit">Preparar consulta en WhatsApp</button></form>
+    </section>
   </main>
+  <p id="notificacion" role="status" aria-live="polite"></p>
+  <dialog id="galeria" aria-labelledby="titulo-galeria"><button class="cerrar" type="button" aria-label="Cerrar galería">Cerrar ×</button><h2 id="titulo-galeria"></h2><div id="imagen-ampliada"></div><div class="acciones"><button id="foto-anterior" type="button">← Anterior</button><span id="contador-fotos" aria-live="polite"></span><button id="foto-siguiente" type="button">Siguiente →</button></div></dialog>
+  <dialog id="qr-dialogo" aria-labelledby="titulo-qr"><button class="cerrar" type="button">Cerrar ×</button><h2 id="titulo-qr">Comparte Cormesac</h2><div id="qr"></div><p>Escanea para abrir el catálogo.</p><a id="descargar-qr" class="boton" download="Cormesac-QR.svg">Descargar QR</a></dialog>
   <footer class="contenedor">© <span id="anio"></span> Cormesac. Todos los derechos reservados.</footer>
   <a class="flotante whatsapp" href="#contacto" aria-label="Consultar a Cormesac por WhatsApp">WhatsApp ↗</a>
 </body>

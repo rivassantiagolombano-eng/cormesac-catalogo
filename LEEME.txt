@@ -1,0 +1,83 @@
+CORMESAC — ACTUALIZACIÓN DEL CATÁLOGO
+
+La página publicada todavía no cambió. Esta descarga contiene la nueva versión.
+El enlace actual de Google Sheets y el teléfono ya están conservados.
+
+CÓMO APLICARLA
+1. Extrae este ZIP.
+2. Conserva una copia de tus archivos anteriores.
+3. Reemplaza index.html, styles.css y script.js; agrega mejoras.js.
+4. Sube también la carpeta assets completa. No subas el ZIP como un archivo del sitio.
+5. Los archivos deben estar directamente en el primer nivel del alojamiento.
+6. Recarga la página con Ctrl+F5 después de actualizarla.
+
+Para el negocio, usa un alojamiento que permita el catálogo comercial, como
+Cloudflare Pages. GitHub Pages restringe sitios destinados principalmente a
+facilitar transacciones comerciales. No se ha hecho ninguna publicación desde aquí.
+
+TU HOJA ACTUAL SIGUE FUNCIONANDO
+No borres las seis columnas actuales ni reemplaces tus productos.
+Agrega, a partir de G1, estas columnas opcionales, en este orden:
+
+Código | Marca | Modelo | Presentación | Estado | Destacado | Etiqueta | Entrega | Link de la imagen 2 | Link de la imagen 3 | Link de la imagen 4
+
+Código: referencia única y estable, por ejemplo CM-001. Úsala para que los enlaces
+de un producto no cambien al corregir su nombre. No repitas códigos.
+Marca, Modelo y Presentación: solo datos reales; se ocultan si están vacíos.
+Estado: Disponible, Agotado o Consultar. Vacío equivale a Disponible.
+Destacado: Sí para mostrarlo también en la sección de destacados.
+Etiqueta: Nuevo o Más solicitado, únicamente si corresponde realmente.
+Entrega: información real de envío o recojo de ese producto.
+Imágenes 2, 3 y 4: un enlace de foto de Drive en cada celda.
+
+IMPORTANTE: Disponible = No continúa OCULTANDO la fila, como antes.
+Para mostrar un producto agotado, usa Disponible = Sí y Estado = Agotado.
+Las filas ocultas siguen siendo públicas en el CSV; no incluyas datos privados.
+
+LO QUE YA INCLUYE
+Teléfono visible con espacios; pedido por WhatsApp con nombre, código, marca,
+modelo, presentación y precio si existen; hasta cuatro fotos; galería ampliada;
+búsqueda por nombre/código/marca/modelo; categorías visuales; filtro por estado;
+destacados; enlace compartible de producto; compartir catálogo; QR descargable;
+llamada telefónica; preguntas frecuentes; formulario que abre WhatsApp;
+avisos de precio/disponibilidad y portada para compartir.
+El formulario NO envía automáticamente ni guarda datos. No pide datos clínicos.
+No hay carrito, pagos ni almacenamiento local del navegador.
+
+DATOS QUE FALTAN PARA ACTIVAR ALGUNAS SECCIONES
+En mejoras.js, al principio, NEGOCIO tiene campos vacíos:
+- horarios: escribe el horario real como texto entre comillas.
+- mapa: pega el enlace exacto de la tienda en Google Maps. No se infiere una
+  ubicación con la dirección incompleta Chancay 001.
+- redes: agrega objetos {nombre: "Instagram", url: "https://..."} dentro de [].
+- testimonios: agrega {nombre: "Nombre autorizado", texto: "Opinión real"} dentro
+  de [] solo con permiso del cliente. No se muestran opiniones inventadas.
+- analyticsToken: opcional. Crea tu sitio en Cloudflare Web Analytics y usa el
+  token público del fragmento que te proporcionan. No pegues claves privadas.
+Las estadísticas NO están activadas todavía. Si alojas en Cloudflare Pages,
+puedes activarlas desde Metrics → Web Analytics; no uses ambos métodos a la vez.
+Referencia: https://developers.cloudflare.com/web-analytics/get-started/
+
+PORTADA Y QR
+El QR se genera dentro del navegador con la dirección donde abras el catálogo.
+Descárgalo desde el sitio final publicado, no desde un archivo local.
+La portada está en assets/portada.png. El og:image en index.html apunta al dominio
+actual de GitHub. Si cambias de alojamiento, actualiza esa URL con la nueva
+dirección y /assets/portada.png. Las aplicaciones pueden guardar la vista previa
+anterior durante un tiempo. Los enlaces de productos usan la portada general,
+no generan una miniatura diferente por cada producto.
+
+FOTOS
+Drive puede impedir cargar miniaturas. Se conserva el enlace a la foto original.
+Utiliza fotografías reales: las imágenes generadas con IA pueden alterar textos
+de etiquetas o detalles del equipo. No presentes esos detalles como auténticos.
+
+PRUEBA DESPUÉS DE SUBIR
+Abre en celular y computadora. Comprueba el teléfono, un pedido de WhatsApp,
+una galería con dos fotos, los filtros, un enlace compartido y el QR escaneado.
+Esta entrega pasó comprobaciones de sintaxis y lógica; falta prueba visual en
+el navegador publicado con las nuevas columnas reales.
+
+BIBLIOTECA QR
+assets/qrcode.js: qrcode-generator 1.4.4, Kazuhiko Arase, licencia MIT conservada
+en su encabezado. https://github.com/kazuhikoarase/qrcode-generator

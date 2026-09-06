@@ -47,8 +47,16 @@ function convertirProductos(texto) {
         (importe && !/^\d+(?:[.,]\d{1,2})?$/.test(importe))) {
       omitidos++; return [];
     }
+    const extra = titulo => (fila[cabecera.indexOf(normalizar(titulo))] || "").trim();
+    const codigo = extra("Código");
     return [{nombre, precio: importe ? Number(importe.replace(",", ".")) : null,
-      descripcion, imagen, categoria: categoria || "Sin categoría"}];
+      descripcion, imagen, categoria: categoria || "Sin categoría",
+      codigo, id: codigo || normalizar(nombre), marca:extra("Marca"), modelo:extra("Modelo"),
+      presentacion:extra("Presentación"), entrega:extra("Entrega"),
+      estado: ["disponible", "agotado", "consultar"].includes(normalizar(extra("Estado"))) ? normalizar(extra("Estado")) : "disponible",
+      destacado:normalizar(extra("Destacado")) === "si",
+      etiqueta:["nuevo", "mas solicitado"].includes(normalizar(extra("Etiqueta"))) ? extra("Etiqueta") : "",
+      fotos:[imagen,extra("Link de la imagen 2"),extra("Link de la imagen 3"),extra("Link de la imagen 4")].filter(Boolean)}];
   });
   return {datos, omitidos};
 }
@@ -72,9 +80,9 @@ function resolverImagen(enlace) {
   } catch {return null;}
 }
 
-function enlaceWhatsApp(nombre) {
-  const mensaje = nombre
-    ? `Hola, vi el catálogo de Cormesac y deseo pedir: ${nombre}. ¿Me confirman precio y disponibilidad?`
+function enlaceWhatsApp(producto) {
+  const mensaje = producto
+    ? mensajeProducto(typeof producto === "string" ? {nombre:producto} : producto)
     : "Hola, vi el catálogo de Cormesac y deseo consultar por un producto";
   return `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
 }
@@ -93,7 +101,7 @@ function enlaceExterno(nodo, destino) {
 function tarjeta(producto) {
   const articulo = elemento("article", "tarjeta");
   const foto = elemento("div", "foto");
-  const enlace = resolverImagen(producto.imagen);
+  const enlace = resolverImagen(producto.fotos[0] || "");
   if (enlace) {
     const img = elemento("img"); img.alt = producto.nombre;
     img.loading = "lazy"; img.decoding = "async"; img.referrerPolicy = "no-referrer";
@@ -108,21 +116,23 @@ function tarjeta(producto) {
     elemento("p", "descripcion", producto.descripcion));
   if (enlace?.drive) contenido.append(enlaceExterno(
     elemento("a", "ver-foto", "Ver foto en Drive ↗"), enlace.original));
-  contenido.append(enlaceExterno(elemento("a", "boton", "Pedir por WhatsApp"),
-    enlaceWhatsApp(producto.nombre)));
-  articulo.append(foto, contenido); return articulo;
+  contenido.append(enlaceExterno(elemento("a", "boton", producto.estado === "agotado" ? "Consultar reposición" : "Pedir por WhatsApp"),
+    enlaceWhatsApp(producto)));
+  articulo.append(foto, contenido); ampliarTarjeta(articulo, producto); return articulo;
 }
 
 let aviso = "";
 function mostrarProductos() {
   const consulta = normalizar(document.querySelector("#buscar").value);
   const categoria = document.querySelector("#categoria").value;
-  const visibles = productos.filter(p => normalizar(p.nombre).includes(consulta) &&
-    (!categoria || normalizar(p.categoria) === categoria));
+  const disponibilidad = normalizar(document.querySelector("#disponibilidad").value);
+  const visibles = productos.filter(p => normalizar([p.nombre,p.codigo,p.marca,p.modelo].join(" ")).includes(consulta) &&
+    (!categoria || normalizar(p.categoria) === categoria) && (!disponibilidad || p.estado === disponibilidad));
   document.querySelector("#lista").replaceChildren(...visibles.map(tarjeta));
   document.querySelector("#estado").textContent = (visibles.length
     ? `${visibles.length} producto(s). Confirma disponibilidad por WhatsApp.`
     : "No hay productos para mostrar con esta selección.") + aviso;
+  mostrarExtras(visibles, Boolean(consulta || categoria || disponibilidad));
 }
 
 // Se consulta Google al abrir la página o pulsar Actualizar; no requiere claves.
@@ -157,7 +167,7 @@ async function cargarProductos() {
     mostrarProductos();
   } catch (error) {
     // Se retira el catálogo anterior para no presentar precios desactualizados.
-    productos = []; lista.replaceChildren();
+    productos = []; lista.replaceChildren(); mostrarExtras([], true);
     estado.textContent = "No pudimos cargar el catálogo. Pulsa Actualizar o consúltanos por WhatsApp.";
     console.warn("Carga del catálogo:", error.message);
   } finally {
@@ -169,9 +179,10 @@ async function cargarProductos() {
 
 // Enlaces generales, contacto y eventos de la página.
 document.querySelectorAll(".whatsapp").forEach(a => enlaceExterno(a, enlaceWhatsApp()));
-document.querySelector("#telefono").textContent = `+${CONFIG.WHATSAPP}`;
+document.querySelector("#telefono").textContent = formatoTelefono(CONFIG.WHATSAPP);
 document.querySelector("#anio").textContent = new Date().getFullYear();
 document.querySelector("#buscar").addEventListener("input", mostrarProductos);
 document.querySelector("#categoria").addEventListener("change", mostrarProductos);
 document.querySelector("#actualizar").addEventListener("click", cargarProductos);
+iniciarMejoras();
 cargarProductos();
