@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cormesac | Equipos y productos médicos</title>
+  <meta name="description" content="Conoce el catálogo de Cormesac, importadora de equipos médicos. Consulta productos y disponibilidad por WhatsApp.">
+  <meta name="theme-color" content="#007caa">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Navegación accesible y enlaces a las secciones. -->
+  <a class="saltar" href="#productos">Ir al catálogo</a>
+  <header class="contenedor cabecera">
+    <a class="marca" href="#inicio">CORMESAC<span>Importadora de equipos médicos</span></a>
+    <nav aria-label="Menú principal">
+      <a href="#productos">Productos</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+  <main id="inicio">
+    <section class="portada contenedor">
+      <div><p class="etiqueta">EQUIPOS Y PRODUCTOS MÉDICOS</p>
+        <h1>Encuentra lo que necesitas.<br>Consúltanos directamente.</h1>
+        <p>Explora nuestro catálogo y conversa con Cormesac para consultar disponibilidad y realizar tu pedido.</p>
+        <a class="boton whatsapp" href="#contacto">Consultar por WhatsApp</a>
+      </div>
+      <!-- El archivo original del logo se incluye en la descarga. -->
+      <div class="identidad"><div class="logo"><img src="assets/logo-cormesac.png" alt="Cormesac, importadora de equipos médicos"></div></div>
+    </section>
+    <section id="productos" class="contenedor catalogo" aria-labelledby="titulo-catalogo">
+      <p class="etiqueta">NUESTRO CATÁLOGO</p><h2 id="titulo-catalogo">Productos</h2>
+      <!-- Los filtros se habilitan cuando termina la carga. -->
+      <div class="filtros">
+        <label>Buscar producto<input id="buscar" type="search" placeholder="Escribe el nombre…" disabled></label>
+        <label>Categoría<select id="categoria" disabled><option value="">Todas las categorías</option></select></label>
+        <button id="actualizar" type="button">Actualizar catálogo</button>
+      </div>
+      <p id="estado" role="status" aria-live="polite">Cargando catálogo…</p>
+      <div id="lista" class="grid" aria-busy="true"></div>
+      <noscript>Activa JavaScript para ver el catálogo. Puedes consultar en la sección Contacto.</noscript>
+    </section>
+    <section id="nosotros" class="banda"><div class="contenedor">
+      <p class="etiqueta">NOSOTROS</p><h2>Conoce Cormesac</h2>
+      <p>Somos una empresa dedicada a ofrecer equipos y productos médicos. Escríbenos para conocer nuestros productos y resolver tus consultas.</p>
+    </div></section>
+    <section id="contacto" class="contenedor contacto">
+      <div><p class="etiqueta">HABLEMOS</p><h2>¿En qué podemos ayudarte?</h2><p>Dirección: Chancay 001</p><p>WhatsApp: <span id="telefono"></span></p></div>
+      <a class="boton whatsapp" href="#contacto">Consultar por WhatsApp</a>
+    </section>
+  </main>
+  <footer class="contenedor">© <span id="anio"></span> Cormesac. Todos los derechos reservados.</footer>
+  <a class="flotante whatsapp" href="#contacto" aria-label="Consultar a Cormesac por WhatsApp">WhatsApp ↗</a>
+</body>
+</html>
